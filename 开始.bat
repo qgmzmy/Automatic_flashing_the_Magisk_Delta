@@ -12,20 +12,20 @@ set 7z=.\source\7zip
 CLS
 rd /s /q %Magisk_source%\Magisk
 del /q %Magisk_source%\magisk_lib.zip
-set /p payload_file=ÇëÊäÈëÄúµÄpayload.binÂ·¾¶:
-title È«×Ô¶¯Ë¢Èëmagisk_V2---by badnng
+set /p payload_file=è¯·è¾“å…¥æ‚¨çš„payload.binè·¯å¾„:
+title å…¨è‡ªåŠ¨åˆ·å…¥magisk_V2---by badnng
 echo.
-echo.          È«×Ô¶¯Ë¢Èëmagisk_V2
+echo.          å…¨è‡ªåŠ¨åˆ·å…¥magisk_V2
 echo.                               by badnng
-echo.°´A¼ü¿ªÊ¼½øÐÐÄÚºË°æ±¾Ð¡ÓÚ5.15°æ±¾µÄbootÈ«×Ô¶¯Ë¢Èë~
-echo.°´B¼ü¿ªÊ¼½øÐÐÄÚºË°æ±¾´óÓÚ»òµÈÓÚ5.15°æ±¾µÄinit_bootÈ«×Ô¶¯Ë¢Èë~
+echo.æŒ‰Aé”®å¼€å§‹è¿›è¡Œå†…æ ¸ç‰ˆæœ¬å°äºŽ5.15ç‰ˆæœ¬çš„bootå…¨è‡ªåŠ¨åˆ·å…¥~
+echo.æŒ‰Bé”®å¼€å§‹è¿›è¡Œå†…æ ¸ç‰ˆæœ¬å¤§äºŽæˆ–ç­‰äºŽ5.15ç‰ˆæœ¬çš„init_bootå…¨è‡ªåŠ¨åˆ·å…¥~
 
 :Nopatch_flies
 echo.
-echo.»ñÈ¡×îÐÂÎÄ¼þ
+echo.èŽ·å–æœ€æ–°æ–‡ä»¶
 %aria%\aria2c.exe -x 16 -c --file-allocation=none -o magisk_lib.zip -d %Magisk_source% https://hub.gitmirror.com/https://github.com/badnng/Tools_library_download/releases/download/test/magisk_lib.zip
 %aria%\aria2c.exe -x 16 -c --file-allocation=none -o Magisk.apk -d %Magisk_source% https://hub.gitmirror.com/https://github.com/badnng/Tools_library_download/releases/download/test/Magisk.apk
-echo.ÇëÊäÈëÑ¡Ïî:
+echo.è¯·è¾“å…¥é€‰é¡¹:
 if exist %Magisk_source%\magisk_lib.zip (
     choice /C AB /N /M ""
     goto flash_boot
@@ -36,81 +36,81 @@ if exist %Magisk_source%\magisk_lib.zip (
 
 :flash_boot
 CLS
-echo. ÕýÔÚ¼ì²âÊÚÈ¨£¬ÈçÎ´ÊÚÈ¨£¬»á¿¨ÔÚÕâ²»¶¯»ò±¨´í£¬ÇëÖªÏþ
+echo. æ­£åœ¨æ£€æµ‹æŽˆæƒï¼Œå¦‚æœªæŽˆæƒï¼Œä¼šå¡åœ¨è¿™ä¸åŠ¨æˆ–æŠ¥é”™ï¼Œè¯·çŸ¥æ™“
 %adb-tools%\adb devices
-echo. °²×°Magisk£¬Èç°²×°Ê§°Ü£¬ÇëÈ·±£ÊÇ·ñ¸øµçÄÔÊÚÈ¨usb°²×°»òÏµÍ³¹Ü¼ÒÀ¹½Ø£¨ÈçMIUI£¬HyperOS£©
+echo. å®‰è£…Magiskï¼Œå¦‚å®‰è£…å¤±è´¥ï¼Œè¯·ç¡®ä¿æ˜¯å¦ç»™ç”µè„‘æŽˆæƒusbå®‰è£…æˆ–ç³»ç»Ÿç®¡å®¶æ‹¦æˆªï¼ˆå¦‚MIUIï¼ŒHyperOSï¼‰
 %adb-tools%\adb install %Magisk_flies%/Magisk.apk
-echo. ½âÑ¹ËùÐèÎÄ¼þ
-.\source\7zip\7z x .\source\Magisk_flies\magisk_lib.zip -o.\source\Magisk_flies && REM ½âÑ¹magisk-libÎÄ¼þ
-echo. ÐÞ²¹²¢ÌáÈ¡boot
+echo. è§£åŽ‹æ‰€éœ€æ–‡ä»¶
+.\source\7zip\7z x .\source\Magisk_flies\magisk_lib.zip -o.\source\Magisk_flies && REM è§£åŽ‹magisk-libæ–‡ä»¶
+echo. ä¿®è¡¥å¹¶æå–boot
 %adb-tools%\adb shell rm -r /data/local/tmp/Magisk
 %payload%\payload-dumper-go.exe -p boot -o %boot_origin% %payload_file%
-%adb-tools%\adb push .\source\Magisk_flies\Magisk\ /data/local/tmp && REM ÍÆËÍ½Å±¾
-%adb-tools%\adb push %boot_origin%\boot.img /data/local/tmp/Magisk && REM ÍÆËÍboot
-%adb-tools%\adb shell chmod +x /data/local/tmp/Magisk/* && REM ¸øÈ¨ÏÞ
-%adb-tools%\adb shell /data/local/tmp/Magisk/boot_patch.sh boot.img && REM Ö´ÐÐ½Å±¾
-%adb-tools%\adb pull /data/local/tmp/Magisk/new-boot.img %boot_Magiskpatched%\boot.img && REM À­È¡¾µÏñ
+%adb-tools%\adb push .\source\Magisk_flies\Magisk\ /data/local/tmp && REM æŽ¨é€è„šæœ¬
+%adb-tools%\adb push %boot_origin%\boot.img /data/local/tmp/Magisk && REM æŽ¨é€boot
+%adb-tools%\adb shell chmod +x /data/local/tmp/Magisk/* && REM ç»™æƒé™
+%adb-tools%\adb shell /data/local/tmp/Magisk/boot_patch.sh boot.img && REM æ‰§è¡Œè„šæœ¬
+%adb-tools%\adb pull /data/local/tmp/Magisk/new-boot.img %boot_Magiskpatched%\boot.img && REM æ‹‰å–é•œåƒ
 %adb-tools%\adb shell rm -r /data/local/tmp/Magisk/
 
-echo. Ë¢Èëboot
-echo. Éè±¸½«ÔÚ10ÃëÄÚÖØÆô½øÈëfastboot£¬ÔÚ´ËÆÚ¼äÇë²»Òª°Î³öÊý¾ÝÏß!
+echo. åˆ·å…¥boot
+echo. è®¾å¤‡å°†åœ¨10ç§’å†…é‡å¯è¿›å…¥fastbootï¼Œåœ¨æ­¤æœŸé—´è¯·ä¸è¦æ‹”å‡ºæ•°æ®çº¿!
 timeout /t 10 >nul
-echo. ÖØÆô½øÈëfastboot
+echo. é‡å¯è¿›å…¥fastboot
 %adb-tools%\adb reboot bootloader
-echo. µÈ´ý¿ª»úË¢Èëboot
-%adb-tools%\fastboot flash boot_ab %boot_Magiskpatched%\boot.img
-echo. ÖØÆô½øÈëÉè±¸
+echo. ç­‰å¾…å¼€æœºåˆ·å…¥boot
+%adb-tools%\fastboot flash boot %boot_Magiskpatched%\boot.img
+echo. é‡å¯è¿›å…¥è®¾å¤‡
 %adb-tools%\fastboot reboot
 
 goto end
 
 :flash_initboot
 CLS
-echo. ÕýÔÚ¼ì²âÊÚÈ¨£¬ÈçÎ´ÊÚÈ¨£¬»á¿¨ÔÚÕâ²»¶¯»ò±¨´í£¬ÇëÖªÏþ
+echo. æ­£åœ¨æ£€æµ‹æŽˆæƒï¼Œå¦‚æœªæŽˆæƒï¼Œä¼šå¡åœ¨è¿™ä¸åŠ¨æˆ–æŠ¥é”™ï¼Œè¯·çŸ¥æ™“
 %adb-tools%\adb devices
-echo. °²×°Magisk£¬Èç°²×°Ê§°Ü£¬ÇëÈ·±£ÊÇ·ñ¸øµçÄÔÊÚÈ¨usb°²×°»òÏµÍ³¹Ü¼ÒÀ¹½Ø£¨ÈçMIUI£¬HyperOS£©
+echo. å®‰è£…Magiskï¼Œå¦‚å®‰è£…å¤±è´¥ï¼Œè¯·ç¡®ä¿æ˜¯å¦ç»™ç”µè„‘æŽˆæƒusbå®‰è£…æˆ–ç³»ç»Ÿç®¡å®¶æ‹¦æˆªï¼ˆå¦‚MIUIï¼ŒHyperOSï¼‰
 %adb-tools%\adb install %Magisk_flies%/Magisk.apk
-echo. ½âÑ¹ËùÐèÎÄ¼þ
-.\source\7zip\7z x .\source\Magisk_flies\magisk_lib.zip -o.\source\Magisk_flies && REM ½âÑ¹magisk-libÎÄ¼þ
-echo. ÐÞ²¹²¢ÌáÈ¡boot
+echo. è§£åŽ‹æ‰€éœ€æ–‡ä»¶
+.\source\7zip\7z x .\source\Magisk_flies\magisk_lib.zip -o.\source\Magisk_flies && REM è§£åŽ‹magisk-libæ–‡ä»¶
+echo. ä¿®è¡¥å¹¶æå–boot
 %payload%\payload-dumper-go.exe -p init_boot -o %boot_origin% %payload_file%
-%adb-tools%\adb push .\source\Magisk_flies\Magisk\ /data/local/tmp && REM ÍÆËÍ½Å±¾
-%adb-tools%\adb push %boot_origin%\init_boot.img /data/local/tmp/Magisk && REM ÍÆËÍboot
-%adb-tools%\adb shell chmod +x /data/local/tmp/Magisk/* && REM ¸øÈ¨ÏÞ
-%adb-tools%\adb shell /data/local/tmp/Magisk/boot_patch.sh init_boot.img && REM Ö´ÐÐ½Å±¾
-%adb-tools%\adb pull /data/local/tmp/Magisk/new-boot.img %boot_Magiskpatched%\init_boot.img && REM À­È¡¾µÏñ
+%adb-tools%\adb push .\source\Magisk_flies\Magisk\ /data/local/tmp && REM æŽ¨é€è„šæœ¬
+%adb-tools%\adb push %boot_origin%\init_boot.img /data/local/tmp/Magisk && REM æŽ¨é€boot
+%adb-tools%\adb shell chmod +x /data/local/tmp/Magisk/* && REM ç»™æƒé™
+%adb-tools%\adb shell /data/local/tmp/Magisk/boot_patch.sh init_boot.img && REM æ‰§è¡Œè„šæœ¬
+%adb-tools%\adb pull /data/local/tmp/Magisk/new-boot.img %boot_Magiskpatched%\init_boot.img && REM æ‹‰å–é•œåƒ
 %adb-tools%\adb shell rm -r /data/local/tmp/Magisk/
 
-echo. Ë¢Èëboot
-echo. Éè±¸½«ÔÚ10ÃëÄÚÖØÆô½øÈëfastboot£¬ÔÚ´ËÆÚ¼äÇë²»Òª°Î³öÊý¾ÝÏß!
+echo. åˆ·å…¥boot
+echo. è®¾å¤‡å°†åœ¨10ç§’å†…é‡å¯è¿›å…¥fastbootï¼Œåœ¨æ­¤æœŸé—´è¯·ä¸è¦æ‹”å‡ºæ•°æ®çº¿!
 timeout /t 10 >nul
-echo. ÖØÆô½øÈëfastboot
+echo. é‡å¯è¿›å…¥fastboot
 %adb-tools%\adb reboot bootloader
-echo. µÈ´ý¿ª»úË¢Èëinit_boot(ABÍ¨Ë¢£¬Ö§³ÖK60U£¬Note13Pro+µÈ»úÐÍ)
-%adb-tools%\fastboot flash init_boot_ab %boot_Magiskpatched%\init_boot.img
-echo. ÖØÆô½øÈëÉè±¸
+echo. ç­‰å¾…å¼€æœºåˆ·å…¥init_boot(ABé€šåˆ·ï¼Œæ”¯æŒK60Uï¼ŒNote13Pro+ç­‰æœºåž‹)
+%adb-tools%\fastboot flash init_boot %boot_Magiskpatched%\init_boot.img
+echo. é‡å¯è¿›å…¥è®¾å¤‡
 %adb-tools%\fastboot reboot
 goto end
 
 :end
 CLS
-echo.    ÊÇ·ñÉ¾³ýpayload.binÎÄ¼þ£¿(YÉ¾³ý/N²»É¾)
+echo.    æ˜¯å¦åˆ é™¤payload.binæ–‡ä»¶ï¼Ÿ(Yåˆ é™¤/Nä¸åˆ )
 choice /c YN
 
 if errorlevel 2 (
-    echo ÕýÔÚÉ¾³ý²ÐÁôÎÄ¼þ
+    echo æ­£åœ¨åˆ é™¤æ®‹ç•™æ–‡ä»¶
 	del /s /q %boot_origin%\boot.img
 	del /s /q %boot_origin%\init_boot.img
 ) else (
-    echo É¾³ýÎÄ¼þ
+    echo åˆ é™¤æ–‡ä»¶
     del /s /q %payload_file%
 	del /s /q %boot_origin%\boot.img
 	del /s /q %boot_origin%\init_boot.img
 )
-echo.    Ö´ÐÐÍê±Ï£¬Ï£Íû´ó´óÓÃµÄ¿ªÐÄÑ½
-echo.    ÓÐÄÜÁ¦µÄ»°¹Ø×¢Ò»ÏÂÎÒµÄbÕ¾ßÂ£¬»òÕßÈ¥¿á°²ËÑË÷badnng¹Ø×¢ÎÒ£¬Èç¹û´óÀÐÄÜÇëÎÒºÈÆ¿¿óÈªË®µÄ»°£¬ÎÒ»á¼Ó±¶¸ÐÐ»ÄãµÄ£¡
+echo.    æ‰§è¡Œå®Œæ¯•ï¼Œå¸Œæœ›å¤§å¤§ç”¨çš„å¼€å¿ƒå‘€
+echo.    æœ‰èƒ½åŠ›çš„è¯å…³æ³¨ä¸€ä¸‹æˆ‘çš„bç«™å‘—ï¼Œæˆ–è€…åŽ»é…·å®‰æœç´¢badnngå…³æ³¨æˆ‘ï¼Œå¦‚æžœå¤§ä½¬èƒ½è¯·æˆ‘å–ç“¶çŸ¿æ³‰æ°´çš„è¯ï¼Œæˆ‘ä¼šåŠ å€æ„Ÿè°¢ä½ çš„ï¼
 start .\source\QRCode\cd85617e1d34b8ebe63db88c22abd09.png
 taskkill -f -im adb.exe
-echo.    ±¾´°¿Ú½«ÔÚ6ÃëÖÓ¹Ø±Õ~
+echo.    æœ¬çª—å£å°†åœ¨6ç§’é’Ÿå…³é—­~
 timeout /t 6 >nul
 explorer "https://space.bilibili.com/355631279?spm_id_from=333.1007.0.0"
